@@ -23,14 +23,18 @@ jobs:
     services:
       selenium:
         image: selenium/standalone-${{ github.event.inputs.browser }}
-        options: --shm-size=2gb
+        options: --shm-size=6gb
+        env:
+          START_XVFB: false
+          SE_NODE_OVERRIDE_MAX_SESSIONS: true
+          SE_NODE_MAX_SESSIONS: 5
 
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: '19'
-          cache: 'npm'
+          node-version: "19"
+          cache: "npm"
       - run: npm ci
       - run: npm run test
         env:
